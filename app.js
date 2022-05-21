@@ -3,12 +3,8 @@ const Discord = require('discord.js')
 const { Client, Intents } = require('discord.js');
 const fs = require('fs')
 const path = require('path')
-const { makeUniquePhrase, makeUniqueGreeting } = require('./utils/phraseFunctions')
-const resources = fs.readdirSync('./resources').filter(file => file.endsWith('.js'));
+const { createRandomPhrase, makeUniqueGreeting } = require('./utils/phraseFunctions')
 
-for (const file of resources) {
-    const resource = require(`./resources/${ file }`);
-}
 
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS] });
@@ -45,8 +41,8 @@ client.on('messageCreate', message => {
 })
 
 
-client.on('guildMemberAdd', member => {
-    member.guild.channels.cache.get('884434543543726134').send(`${ makeUniqueGreeting() }, <@${ member.user.id }>.  ${ makeUniquePhrase() }.`);
+client.on('guildMemberAdd', async member => {
+    member.guild.channels.cache.get('884434543543726134').send(`${ makeUniqueGreeting() }, <@${ member.user.id }>.  ${ await createRandomPhrase() }.`);
 
 
 });
